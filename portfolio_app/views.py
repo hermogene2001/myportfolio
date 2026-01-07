@@ -3,7 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import Project, Skill, Experience, Contact
+from .models import Project, Skill, Experience, Contact, Profile
 
 
 def home(request):
@@ -44,7 +44,11 @@ def home(request):
     for project in projects:
         project.technologies_list = [tech.strip() for tech in project.technologies.split(',')]
     
+    # Get the profile (assuming there's only one profile for the portfolio)
+    profile = Profile.objects.first()
+    
     context = {
+        'profile': profile,
         'projects': projects,
         'skills': Skill.objects.all().order_by('category'),
         'experiences': Experience.objects.all().order_by('-start_date'),

@@ -2,6 +2,20 @@ from django.db import models
 from django.utils import timezone
 
 
+class Profile(models.Model):
+    name = models.CharField(max_length=100, default="UKUNDAYEZU Hermogene")
+    title = models.CharField(max_length=200, help_text="Your main title/role")
+    bio = models.TextField(help_text="Brief bio that will be animated")
+    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
+    headline_1 = models.CharField(max_length=200, help_text="First animated headline", default="Full Stack Developer")
+    headline_2 = models.CharField(max_length=200, help_text="Second animated headline", default="Software Engineer")
+    headline_3 = models.CharField(max_length=200, help_text="Third animated headline", default="Tech Enthusiast")
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.name
+
+
 class Contact(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField()
