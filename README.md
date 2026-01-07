@@ -84,7 +84,7 @@ This is a Django-based single-page portfolio website featuring modern design and
 
 For production deployment:
 1. Update `DEBUG = False` in settings
-2. Set proper `ALLOWED_HOSTS`
+2. Set proper `ALLOWED_HOSTS` environment variable (on Render: set environment variable `ALLOWED_HOSTS` to your domain like `your-app-name.onrender.com`)
 3. Configure a production-ready database
 4. Install Gunicorn: `pip install gunicorn`
 5. Collect static files: `python manage.py collectstatic --noinput`

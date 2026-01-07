@@ -27,7 +27,13 @@ DEBUG = True
 
 import os
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+# Handle Render deployment - Render sets RENDER_EXTERNAL_HOSTNAME
+RENDER = 'RENDER' in os.environ
+
+if RENDER:
+    ALLOWED_HOSTS = [os.environ['RENDER_EXTERNAL_HOSTNAME']]
+else:
+    ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
 
 # Application definition
