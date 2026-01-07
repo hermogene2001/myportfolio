@@ -86,8 +86,9 @@ For production deployment:
 1. Update `DEBUG = False` in settings
 2. Set proper `ALLOWED_HOSTS`
 3. Configure a production-ready database
-4. Set up static files serving
-5. Configure email backend for production
+4. Install Gunicorn: `pip install gunicorn`
+5. Collect static files: `python manage.py collectstatic --noinput`
+6. Run with Gunicorn: `gunicorn portfolio.wsgi:application`
 
 ## Contact Form
 
