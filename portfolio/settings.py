@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-y=unhp2bd=nb5=3!56zj-qw%_2-wxssufnuj(-1nv7y1)h!vlf'
 
-import os
+
 
 # Handle Render deployment - Render sets RENDER_EXTERNAL_HOSTNAME
 RENDER = 'RENDER' in os.environ
@@ -110,15 +111,24 @@ DATABASES = {
 
 # Check if running on Render
 if RENDER:
-    import dj_database_url
-    
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=os.environ.get('DATABASE_URL'),
-            conn_max_age=600,
-            conn_health_checks=True,
-        )
-    }
+    try:
+        import dj_database_url
+        
+        DATABASES = {
+            'default': dj_database_url.config(
+                default=os.environ.get('DATABASE_URL'),
+                conn_max_age=600,
+                conn_health_checks=True,
+            )
+        }
+    except ImportError:
+        # Fallback to SQLite if dj_database_url is not available
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
+            }
+        }
 else:
     # Local development - check if MySQL is configured
     if os.getenv('MYSQL_DATABASE'):
