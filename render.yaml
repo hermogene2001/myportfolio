@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: myportfolio
+    env: python
+    plan: free
+    region: oregon
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn portfolio.wsgi:application
+    postdeployCommand: python manage.py migrate --noinput && python manage.py collectstatic --noinput
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: portfolio.settings
