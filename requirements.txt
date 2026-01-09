@@ -1,3 +1,4 @@
 Django>=5.0.7
 Pillow>=9.0.0  # For image handling in projects
 gunicorn>=20.1.0  # For production server
+PyMySQL>=1.0.2

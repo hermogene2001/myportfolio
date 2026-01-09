@@ -89,6 +89,23 @@ DATABASES = {
     }
 }
 
+# Optional MySQL configuration via environment variables.
+# If you set MYSQL_DATABASE (and related vars) the app will use MySQL in production.
+if os.getenv('MYSQL_DATABASE'):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': os.getenv('MYSQL_DATABASE'),
+            'USER': os.getenv('MYSQL_USER', ''),
+            'PASSWORD': os.getenv('MYSQL_PASSWORD', ''),
+            'HOST': os.getenv('MYSQL_HOST', '127.0.0.1'),
+            'PORT': os.getenv('MYSQL_PORT', '3306'),
+            'OPTIONS': {
+                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            },
+        }
+    }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
