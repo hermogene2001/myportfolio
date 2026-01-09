@@ -10,6 +10,20 @@ class Profile(models.Model):
     headline_1 = models.CharField(max_length=200, help_text="First animated headline", default="Full Stack Developer")
     headline_2 = models.CharField(max_length=200, help_text="Second animated headline", default="Software Engineer")
     headline_3 = models.CharField(max_length=200, help_text="Third animated headline", default="Tech Enthusiast")
+    
+    # Contact Information
+    email = models.EmailField(blank=True, null=True)
+    phone = models.CharField(max_length=20, blank=True, null=True)
+    location = models.CharField(max_length=200, blank=True, null=True)
+    
+    # Social Media Links
+    twitter_url = models.URLField(blank=True, null=True)
+    linkedin_url = models.URLField(blank=True, null=True)
+    github_url = models.URLField(blank=True, null=True)
+    facebook_url = models.URLField(blank=True, null=True)
+    instagram_url = models.URLField(blank=True, null=True)
+    youtube_url = models.URLField(blank=True, null=True)
+    
     updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
@@ -60,3 +74,20 @@ class Experience(models.Model):
     
     def __str__(self):
         return f'{self.title} at {self.company}'
+
+
+class Education(models.Model):
+    school = models.CharField(max_length=200)
+    degree = models.CharField(max_length=200, help_text="e.g., Bachelor of Science, Diploma, etc.")
+    field_of_study = models.CharField(max_length=200, help_text="e.g., Computer Science, Information Technology")
+    start_date = models.DateField()
+    end_date = models.DateField(blank=True, null=True)
+    description = models.TextField(blank=True, null=True, help_text="Additional info about the program")
+    grade = models.CharField(max_length=10, blank=True, null=True, help_text="GPA or grade")
+    is_current = models.BooleanField(default=False)
+    
+    class Meta:
+        ordering = ['-end_date', '-start_date']
+    
+    def __str__(self):
+        return f'{self.degree} in {self.field_of_study} from {self.school}'
