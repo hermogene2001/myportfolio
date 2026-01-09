@@ -29,6 +29,7 @@
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         padding: 1rem 0;
         transition: all 0.3s ease;
+        z-index: 1030;
     }
 
     .navbar.scrolled {
@@ -92,12 +93,15 @@
 
     /* Hero Section */
     #hero {
-        height: 100vh;
+        min-height: calc(100vh - 70px);
         display: flex;
         align-items: center;
+        justify-content: center;
         background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(30, 64, 175, 0.1) 100%);
         position: relative;
         overflow: hidden;
+        padding: 80px 0;
+    }
     }
 
     .hero-content {
@@ -561,9 +565,14 @@
         <div class="about-content">
             <div class="about-text">
                 <h3>Hello! I'm Hermogene</h3>
-                <p>I'm a passionate Full Stack Developer with expertise in creating robust and scalable web applications. With a strong foundation in both front-end and back-end technologies, I bring ideas to life through clean, efficient code.</p>
-                <p>My journey in technology has equipped me with skills in multiple programming languages and frameworks. I'm dedicated to delivering high-quality solutions that meet client requirements while maintaining best practices in software development.</p>
-                <p>When I'm not coding, I enjoy staying updated with the latest tech trends, contributing to open-source projects, and mentoring aspiring developers.</p>
+                
+                UKUNDAYEZU Hermogene is an IT and software development professional with strong experience in full-stack web development, embedded systems, and smart technology solutions. He has worked extensively with PHP, Django, JavaScript, Bootstrap, MySQL, and modern web hosting environments to build investment platforms, e-commerce systems, role-based dashboards, and real-time data applications.
+
+Hermogene has led and developed multiple projects involving client–admin–agent systems, financial and investment applications with dynamic profit cycles, GPS-based tracking systems, and payment-controlled platforms. He also has hands-on experience with IoT and microcontrollers such as ESP32, ESP8266 (NodeMCU), Raspberry Pi, and various sensors, integrating hardware with software dashboards for monitoring and automation.
+
+In addition, he is actively exploring AI-powered solutions, including voice translation systems like Smart Umusemuzi, designed to bridge language barriers between English and Kinyarwanda using embedded systems and AI technologies. His work reflects a strong focus on problem-solving, scalability, and social impact, particularly in finance, smart infrastructure, and inclusive technology.
+
+Hermogene is passionate about building practical, real-world systems that combine software engineering, hardware integration, and user-centered design to solve local and global challenges.
                 <a href="#" class="btn btn-primary">Download CV</a>
             </div>
         </div>
@@ -751,8 +760,11 @@
             const targetId = this.getAttribute('href');
             const targetElement = document.querySelector(targetId);
             
+            // Calculate offset to account for fixed navbar
+            const offsetPosition = targetElement.offsetTop - document.querySelector('.navbar').offsetHeight - 20;
+            
             window.scrollTo({
-                top: targetElement.offsetTop - 80,
+                top: offsetPosition,
                 behavior: 'smooth'
             });
             
