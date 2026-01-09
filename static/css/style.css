@@ -315,82 +315,125 @@ section {
 }
 
 /* Experience Section */
-.timeline {
-    position: relative;
+.experience-timeline {
     max-width: 800px;
     margin: 0 auto;
 }
 
-.timeline::after {
-    content: '';
-    position: absolute;
-    width: 6px;
-    background-color: #e2e8f0;
-    top: 0;
-    bottom: 0;
-    left: 50%;
-    margin-left: -3px;
-}
-
-.timeline-item {
-    padding: 20px 40px;
+.experience-item {
     position: relative;
-    width: 50%;
-    box-sizing: border-box;
-}
-
-.timeline-item:nth-child(odd) {
-    left: 0;
-}
-
-.timeline-item:nth-child(even) {
-    left: 50%;
-}
-
-.timeline-content {
     padding: 30px;
-    background-color: white;
-    position: relative;
-    border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border-top: 4px solid var(--primary-color);
+    overflow: hidden;
 }
 
-.timeline-content h3 {
-    color: var(--primary-color);
-    margin-bottom: 10px;
-}
-
-.timeline-content h4 {
-    color: var(--secondary-color);
-    margin-bottom: 10px;
-    font-weight: 500;
-}
-
-.timeline-content .date {
-    color: #64748b;
-    font-style: italic;
-    margin-bottom: 15px;
-    display: block;
-}
-
-.timeline-item::after {
+.experience-item::before {
     content: '';
     position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.experience-item:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(37, 99, 235, 0.15);
+}
+
+.experience-item:hover::before {
+    opacity: 1;
+}
+
+.experience-item:last-child {
+    margin-bottom: 0;
+}
+
+.experience-marker {
+    position: absolute;
+    left: -25px;
+    top: 35px;
     width: 20px;
     height: 20px;
-    background-color: white;
-    border: 4px solid var(--primary-color);
-    top: 30px;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
     border-radius: 50%;
+    border: 4px solid white;
+    box-shadow: 0 3px 10px rgba(37, 99, 235, 0.3);
     z-index: 1;
 }
 
-.timeline-item:nth-child(odd)::after {
-    right: -10px;
+.experience-marker::after {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: -8px;
+    width: 36px;
+    height: 36px;
+    border: 2px solid rgba(37, 99, 235, 0.2);
+    border-radius: 50%;
+    z-index: -1;
 }
 
-.timeline-item:nth-child(even)::after {
-    left: -10px;
+.experience-item .experience-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 2;
+}
+
+.experience-item h3 {
+    color: var(--dark-color);
+    margin: 0 0 5px 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.experience-item h4 {
+    color: var(--primary-color);
+    margin: 0 0 5px 0;
+    font-weight: 500;
+    font-size: 1.2rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.experience-item .date {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap;
+    margin-left: 15px;
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.experience-item:hover .date {
+    transform: scale(1.05);
+}
+
+.experience-item .description {
+    color: #475569;
+    line-height: 1.7;
+    margin: 0;
+    position: relative;
+    z-index: 2;
+    font-size: 1.05rem;
 }
 
 /* Contact Section */

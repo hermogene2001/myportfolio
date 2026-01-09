@@ -660,12 +660,15 @@ Hermogene is passionate about building practical, real-world systems that combin
         <div class="section-title">
             <h2>Experience</h2>
         </div>
-        <div class="timeline">
+        <div class="experience-timeline">
             {% for exp in experiences %}
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <h3>{{ exp.title }}</h3>
-                    <h4>{{ exp.company }}</h4>
+            <div class="experience-item">
+                <div class="experience-marker"></div>
+                <div class="experience-header">
+                    <div>
+                        <h3>{{ exp.title }}</h3>
+                        <h4>{{ exp.company }}</h4>
+                    </div>
                     <span class="date">
                         {% if exp.currently_working %}
                             {{ exp.start_date|date:"M Y" }} - Present
@@ -673,8 +676,8 @@ Hermogene is passionate about building practical, real-world systems that combin
                             {{ exp.start_date|date:"M Y" }} - {{ exp.end_date|date:"M Y" }}
                         {% endif %}
                     </span>
-                    <p>{{ exp.description }}</p>
                 </div>
+                <p class="description">{{ exp.description }}</p>
             </div>
             {% empty %}
             <p class="text-center">No experience data available at the moment.</p>
