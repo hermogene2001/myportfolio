@@ -36,15 +36,17 @@ This is a Django-based single-page portfolio website featuring modern design and
    ```
    pip install django
    ```
-4. Run database migrations:
+4. Make sure MySQL is installed and running on your system
+5. Create a MySQL database named 'myportfolio_db' and update credentials in settings.py
+6. Run database migrations:
    ```
    python manage.py migrate
    ```
-5. Create a superuser account:
+7. Create a superuser account:
    ```
    python manage.py createsuperuser
    ```
-6. Start the development server:
+8. Start the development server:
    ```
    python manage.py runserver
    ```
