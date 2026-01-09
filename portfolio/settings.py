@@ -130,12 +130,14 @@ if RENDER:
             }
         }
 else:
-    # Local development - check if MySQL is configured
-    if os.getenv('MYSQL_DATABASE'):
+    # Local development - always use SQLite unless specifically configured for MySQL
+    # Only use MySQL if specifically configured via environment variables
+    mysql_db_name = os.getenv('MYSQL_DATABASE')
+    if mysql_db_name:  # Only check this one essential variable
         DATABASES = {
             'default': {
                 'ENGINE': 'django.db.backends.mysql',
-                'NAME': os.getenv('MYSQL_DATABASE'),
+                'NAME': mysql_db_name,
                 'USER': os.getenv('MYSQL_USER', ''),
                 'PASSWORD': os.getenv('MYSQL_PASSWORD', ''),
                 'HOST': os.getenv('MYSQL_HOST', '127.0.0.1'),
@@ -145,8 +147,8 @@ else:
                 },
             }
         }
-    # Otherwise use SQLite for local development
     else:
+        # Default to SQLite for local development
         DATABASES = {
             'default': {
                 'ENGINE': 'django.db.backends.sqlite3',
