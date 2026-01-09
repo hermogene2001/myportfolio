@@ -124,27 +124,19 @@ if RENDER:
                 )
             }
         else:
-            # Fallback to PostgreSQL if DATABASE_URL not set but on Render
+            # Fallback to SQLite if DATABASE_URL not set but on Render
             DATABASES = {
                 'default': {
-                    'ENGINE': 'django.db.backends.postgresql',
-                    'NAME': os.environ.get('RENDER_POSTGRES_DB_NAME', 'myportfolio_db'),
-                    'USER': os.environ.get('RENDER_POSTGRES_USER', 'myportfolio_user'),
-                    'PASSWORD': os.environ.get('RENDER_POSTGRES_PASSWORD', ''),
-                    'HOST': os.environ.get('RENDER_POSTGRES_HOST', 'localhost'),
-                    'PORT': os.environ.get('RENDER_POSTGRES_PORT', '5432'),
+                    'ENGINE': 'django.db.backends.sqlite3',
+                    'NAME': BASE_DIR / 'db.sqlite3',
                 }
             }
     except ImportError:
-        # Fallback to PostgreSQL if dj_database_url is not available
+        # Fallback to SQLite if dj_database_url is not available
         DATABASES = {
             'default': {
-                'ENGINE': 'django.db.backends.postgresql',
-                'NAME': os.environ.get('RENDER_POSTGRES_DB_NAME', 'myportfolio_db'),
-                'USER': os.environ.get('RENDER_POSTGRES_USER', 'myportfolio_user'),
-                'PASSWORD': os.environ.get('RENDER_POSTGRES_PASSWORD', ''),
-                'HOST': os.environ.get('RENDER_POSTGRES_HOST', 'localhost'),
-                'PORT': os.environ.get('RENDER_POSTGRES_PORT', '5432'),
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
             }
         }
 else:
