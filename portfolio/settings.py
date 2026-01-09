@@ -114,19 +114,37 @@ if RENDER:
     try:
         import dj_database_url
         
-        DATABASES = {
-            'default': dj_database_url.config(
-                default=os.environ.get('DATABASE_URL'),
-                conn_max_age=600,
-                conn_health_checks=True,
-            )
-        }
+        # Use DATABASE_URL from environment if available
+        if os.environ.get('DATABASE_URL'):
+            DATABASES = {
+                'default': dj_database_url.config(
+                    default=os.environ.get('DATABASE_URL'),
+                    conn_max_age=600,
+                    conn_health_checks=True,
+                )
+            }
+        else:
+            # Fallback to PostgreSQL if DATABASE_URL not set but on Render
+            DATABASES = {
+                'default': {
+                    'ENGINE': 'django.db.backends.postgresql',
+                    'NAME': os.environ.get('RENDER_POSTGRES_DB_NAME', 'myportfolio_db'),
+                    'USER': os.environ.get('RENDER_POSTGRES_USER', 'myportfolio_user'),
+                    'PASSWORD': os.environ.get('RENDER_POSTGRES_PASSWORD', ''),
+                    'HOST': os.environ.get('RENDER_POSTGRES_HOST', 'localhost'),
+                    'PORT': os.environ.get('RENDER_POSTGRES_PORT', '5432'),
+                }
+            }
     except ImportError:
-        # Fallback to SQLite if dj_database_url is not available
+        # Fallback to PostgreSQL if dj_database_url is not available
         DATABASES = {
             'default': {
-                'ENGINE': 'django.db.backends.sqlite3',
-                'NAME': BASE_DIR / 'db.sqlite3',
+                'ENGINE': 'django.db.backends.postgresql',
+                'NAME': os.environ.get('RENDER_POSTGRES_DB_NAME', 'myportfolio_db'),
+                'USER': os.environ.get('RENDER_POSTGRES_USER', 'myportfolio_user'),
+                'PASSWORD': os.environ.get('RENDER_POSTGRES_PASSWORD', ''),
+                'HOST': os.environ.get('RENDER_POSTGRES_HOST', 'localhost'),
+                'PORT': os.environ.get('RENDER_POSTGRES_PORT', '5432'),
             }
         }
 else:
@@ -193,8 +211,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'  # Change this to your SMTP server
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'your-email@gmail.com'  # Change this to your email
-EMAIL_HOST_PASSWORD = 'your-app-password'  # Change this to your app password
+EMAIL_HOST_USER = 'hermogene2001@gmail.com'  # Change this to your email
+EMAIL_HOST_PASSWORD = 'Password@250'  # Change this to your app password
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
