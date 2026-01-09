@@ -22,13 +22,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-y=unhp2bd=nb5=3!56zj-qw%_2-wxssufnuj(-1nv7y1)h!vlf'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
 import os
 
 # Handle Render deployment - Render sets RENDER_EXTERNAL_HOSTNAME
 RENDER = 'RENDER' in os.environ
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = not RENDER  # False in production (Render), True locally
 
 if RENDER:
     ALLOWED_HOSTS = [os.environ['RENDER_EXTERNAL_HOSTNAME']]
@@ -78,37 +78,71 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'portfolio.wsgi.application'
 
+# Logging configuration
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+}
 
-# Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'myportfolio_user',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
-# Optional MySQL configuration via environment variables.
-# If you set MYSQL_DATABASE (and related vars) the app will use MySQL in production.
-if os.getenv('MYSQL_DATABASE'):
+# Check if running on Render
+if RENDER:
+    import dj_database_url
+    
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': os.getenv('MYSQL_DATABASE'),
-            'USER': os.getenv('MYSQL_USER', ''),
-            'PASSWORD': os.getenv('MYSQL_PASSWORD', ''),
-            'HOST': os.getenv('MYSQL_HOST', '127.0.0.1'),
-            'PORT': os.getenv('MYSQL_PORT', '3306'),
-            'OPTIONS': {
-                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-            },
-        }
+        'default': dj_database_url.config(
+            default=os.environ.get('DATABASE_URL'),
+            conn_max_age=600,
+            conn_health_checks=True,
+        )
     }
+else:
+    # Local development - check if MySQL is configured
+    if os.getenv('MYSQL_DATABASE'):
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.mysql',
+                'NAME': os.getenv('MYSQL_DATABASE'),
+                'USER': os.getenv('MYSQL_USER', ''),
+                'PASSWORD': os.getenv('MYSQL_PASSWORD', ''),
+                'HOST': os.getenv('MYSQL_HOST', '127.0.0.1'),
+                'PORT': os.getenv('MYSQL_PORT', '3306'),
+                'OPTIONS': {
+                    'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+                },
+            }
+        }
+    # Otherwise use SQLite for local development
+    else:
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
+            }
+        }
 
 
 # Password validation

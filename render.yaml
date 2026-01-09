@@ -6,7 +6,11 @@ services:
     region: oregon
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn portfolio.wsgi:application
-    postdeployCommand: python manage.py migrate --noinput && python manage.py collectstatic --noinput
+    postdeployCommand: python manage.py migrate --noinput && python manage.py collectstatic --noinput && python create_superuser.py
     envVars:
       - key: DJANGO_SETTINGS_MODULE
         value: portfolio.settings
+      - key: PYTHONPATH
+        value: /opt/render/project/src
+      - key: DATABASE_URL
+        sync: fromDatabaseUrl

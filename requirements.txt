@@ -1,4 +1,6 @@
 Django>=5.0.7
 Pillow>=9.0.0  # For image handling in projects
 gunicorn>=20.1.0  # For production server
+dj-database-url>=2.0.0  # For database URL parsing
+psycopg2-binary>=2.9.0  # For PostgreSQL database connection
 mysqlclient>=2.2.0  # For MySQL database connection
